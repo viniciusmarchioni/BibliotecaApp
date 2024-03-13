@@ -60,7 +60,6 @@ class AutoCompleteInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Autocomplete<String>(
       fieldViewBuilder:
           (context, textEditingController, focusNode, onFieldSubmitted) {
