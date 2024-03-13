@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ripple_image_button/ripple_image_button.dart';
 
 class Grid extends StatelessWidget {
   const Grid({super.key});
@@ -13,11 +12,19 @@ class Grid extends StatelessWidget {
       itemBuilder: ((context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: RippleImageButton(
-            onTap: () {
-              debugPrint('');
-            },
-            image: const AssetImage('assets/yuri.jpg'),
+          child: InkWell(
+            splashColor: Colors.black26,
+            onTap: () {},
+            child: Ink.image(
+              image: const AssetImage('assets/yuri.jpg'),
+              child: const Center(
+                child: Text(
+                  'Yuri Alberto',
+                  style: TextStyle(
+                      color: Colors.white, backgroundColor: Colors.black),
+                ),
+              ),
+            ),
           ),
         );
       }),

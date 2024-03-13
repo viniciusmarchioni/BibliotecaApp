@@ -41,7 +41,7 @@ class _MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AutoCompleteInput(),
+        title: AutoCompleteInput(),
       ),
       body: const Grid(),
     );

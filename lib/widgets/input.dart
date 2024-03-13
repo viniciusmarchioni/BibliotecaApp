@@ -56,7 +56,8 @@ const List<String> livros = [
 ];
 
 class AutoCompleteInput extends StatelessWidget {
-  const AutoCompleteInput({super.key});
+  final searchInput = TextEditingController();
+  AutoCompleteInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +69,19 @@ class AutoCompleteInput extends StatelessWidget {
             width: 250,
             height: 50,
             child: TextField(
+              controller: searchInput,
               cursorColor: Colors.black,
               decoration: InputDecoration(
                 hintText: '${livros[Random().nextInt(49)]}...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                suffixIcon: const Icon(Icons.clear),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    searchInput.clear();
+                  },
+                  child: const Icon(Icons.clear),
+                ),
               ),
             ),
           ),
