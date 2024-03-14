@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:biblioteca_app/main.dart';
 import 'package:flutter/material.dart';
 
 const List<String> livros = [
@@ -61,14 +61,30 @@ class AutoCompleteInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void changePage(String value) {
+      if (searchInput.text == '') {
+        return;
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) {
+              return const MyApp();
+            },
+          ),
+        );
+      }
+    }
+
     return Autocomplete<String>(
       fieldViewBuilder:
           (context, textEditingController, focusNode, onFieldSubmitted) {
         return Center(
           child: SizedBox(
-            width: 250,
+            width: 275,
             height: 50,
             child: TextField(
+              onSubmitted: changePage,
+              textInputAction: TextInputAction.search,
               controller: searchInput,
               cursorColor: Colors.black,
               decoration: InputDecoration(
