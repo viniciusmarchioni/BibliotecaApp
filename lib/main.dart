@@ -1,7 +1,8 @@
 import 'package:biblioteca_app/menu.dart';
+import 'package:biblioteca_app/search.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MaterialApp(home: MyApp()));
@@ -21,11 +22,11 @@ class _Homepage extends State<MyApp> {
   void changeStr() {
     setState(() {
       if (_textController.text == '') {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) {
-              return const Menu(
-                name: 'Vini',
+              return const Search(
+                pesquisa: 'Vini',
               );
             },
           ),

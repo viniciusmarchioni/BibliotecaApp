@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:biblioteca_app/main.dart';
+import 'package:biblioteca_app/search.dart';
 import 'package:flutter/material.dart';
 
 const List<String> livros = [
@@ -65,10 +65,10 @@ class AutoCompleteInput extends StatelessWidget {
       if (searchInput.text == '') {
         return;
       } else {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) {
-              return const MyApp();
+              return Search(pesquisa: searchInput.text);
             },
           ),
         );
