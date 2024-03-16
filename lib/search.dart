@@ -1,4 +1,5 @@
 import 'package:biblioteca_app/widgets/input.dart';
+import 'package:biblioteca_app/widgets/view.dart';
 import 'package:flutter/material.dart';
 
 class Search extends StatefulWidget {
@@ -25,6 +26,9 @@ class _ListaResultados extends State<Search> {
     return Scaffold(
       appBar: AppBar(
         title: AutoCompleteInput(),
+      ),
+      body: ListView(
+        children: const [ItemList(livro: true), ItemList(livro: false)],
       ),
     );
   }

@@ -31,3 +31,43 @@ class Grid extends StatelessWidget {
     );
   }
 }
+
+class ItemList extends StatelessWidget {
+  final bool livro;
+  const ItemList({super.key, required this.livro});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        print('object');
+      },
+      child: Container(
+        height: 100,
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
+        color: livro ? Colors.blue : Colors.green,
+        child: const Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image(
+              image: AssetImage('assets/yuri.jpg'),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Título place holder',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                Text(
+                  'Autores place holder',
+                  style: TextStyle(color: Color.fromARGB(255, 196, 188, 188)),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
