@@ -1,3 +1,5 @@
+import 'package:biblioteca_app/modular_page.dart';
+import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 
 class Grid extends StatelessWidget {
@@ -33,25 +35,42 @@ class Grid extends StatelessWidget {
 }
 
 class ItemList extends StatelessWidget {
-  final bool livro;
+  final bool isLivro;
   final String titulo;
   final String autores;
+  final Livro book;
   const ItemList(
       {super.key,
-      required this.livro,
+      required this.isLivro,
       required this.titulo,
-      required this.autores});
+      required this.autores,
+      required this.book});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('object');
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              /*return const Menu(
+              name: 'Vini',
+            );*/
+              return ModularPage(
+                livro: Livro(
+                    titulo: book.titulo,
+                    autores: book.autores,
+                    sinopse: book.sinopse,
+                    tema: book.tema),
+              );
+            },
+          ),
+        );
       },
       child: Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
-        color: livro ? Colors.blue : Colors.green,
+        color: isLivro ? Colors.blue : Colors.green,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

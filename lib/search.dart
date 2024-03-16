@@ -36,9 +36,10 @@ class _ListaResultados extends State<Search> {
         children: [
           for (Livro i in resultados)
             ItemList(
-              livro: true,
+              isLivro: true,
               titulo: i.titulo,
               autores: i.autores,
+              book: i,
             )
         ],
       ),
