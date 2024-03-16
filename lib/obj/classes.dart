@@ -9,16 +9,25 @@ class Sujestoes {
 }
 
 class Livro {
-  String titulos;
-  var autores = [];
+  String titulo;
+  String autores;
   String sinopse;
   String tema;
 
   Livro(
-      {required this.titulos,
+      {required this.titulo,
       required this.autores,
       required this.sinopse,
       required this.tema});
+
+  factory Livro.fromJson(Map<String, dynamic> json) {
+    return Livro(
+      titulo: json['titulo'],
+      autores: json['autores'],
+      sinopse: json['sinopse'],
+      tema: json['tema'],
+    );
+  }
 }
 
 class Biblioteca {

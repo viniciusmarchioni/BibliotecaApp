@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:biblioteca_app/search.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:biblioteca_app/obj/classes.dart';
+import 'package:http/http.dart' as http;
 
 const List<String> livros = [
   "Dom Quixote",
@@ -59,16 +62,31 @@ class AutoCompleteInput extends StatelessWidget {
   final searchInput = TextEditingController();
   AutoCompleteInput({super.key});
 
+  Future<List<Livro>> fetchObjetos() async {
+    final response = await http
+        .get(Uri.parse('http://10.0.2.2:5000/search/${searchInput.text}'));
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((obj) => Livro.fromJson(obj)).toList();
+    } else {
+      throw Exception('Falha ao carregar objetos');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    void changePage(String value) {
+    Future<void> changePage(String value) async {
+      var livros = await fetchObjetos();
       if (searchInput.text == '') {
         return;
       } else {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) {
-              return Search(pesquisa: searchInput.text);
+              return Search(
+                pesquisa: searchInput.text,
+                resultados: livros,
+              );
             },
           ),
         );

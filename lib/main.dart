@@ -1,5 +1,4 @@
 import 'package:biblioteca_app/menu.dart';
-import 'package:biblioteca_app/search.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,32 +16,18 @@ class MyApp extends StatefulWidget {
 
 class _Homepage extends State<MyApp> {
   final TextEditingController _textController = TextEditingController();
-  String x = 'Text';
 
   void changeStr() {
     setState(() {
-      if (_textController.text == '') {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) {
-              return const Search(
-                pesquisa: 'Vini',
-              );
-            },
-          ),
-        );
-      } else {
-        x = _textController.text;
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) {
-              return Menu(
-                name: x.toString(),
-              );
-            },
-          ),
-        );
-      }
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) {
+            return const Menu(
+              name: 'Vini',
+            );
+          },
+        ),
+      );
     });
   }
 

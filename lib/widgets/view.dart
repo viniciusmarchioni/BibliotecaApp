@@ -34,7 +34,13 @@ class Grid extends StatelessWidget {
 
 class ItemList extends StatelessWidget {
   final bool livro;
-  const ItemList({super.key, required this.livro});
+  final String titulo;
+  final String autores;
+  const ItemList(
+      {super.key,
+      required this.livro,
+      required this.titulo,
+      required this.autores});
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +52,23 @@ class ItemList extends StatelessWidget {
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
         color: livro ? Colors.blue : Colors.green,
-        child: const Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
+            const Image(
               image: AssetImage('assets/yuri.jpg'),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Título place holder',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  titulo,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 Text(
-                  'Autores place holder',
-                  style: TextStyle(color: Color.fromARGB(255, 196, 188, 188)),
+                  autores,
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 196, 188, 188)),
                 ),
               ],
             )
