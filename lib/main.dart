@@ -1,6 +1,4 @@
 import 'package:biblioteca_app/menu.dart';
-import 'package:biblioteca_app/modular_page.dart';
-import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -21,12 +19,10 @@ class _Homepage extends State<MyApp> {
 
   void changeStr() {
     setState(() {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) {
-            return const Menu(
-              name: 'Vini',
-            );
+            return const Menu();
           },
         ),
       );

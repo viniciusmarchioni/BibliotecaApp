@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:http/http.dart' as http;
 
-const List<String> livros = [
+const List<String> _optionlivros = [
   "Dom Quixote",
   "Cem Anos de Solidão",
   "1984",
@@ -84,8 +84,8 @@ class AutoCompleteInput extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) {
               return Search(
-                pesquisa: searchInput.text,
                 resultados: livros,
+                textController: searchInput,
               );
             },
           ),
@@ -106,7 +106,7 @@ class AutoCompleteInput extends StatelessWidget {
               controller: searchInput,
               cursorColor: Colors.black,
               decoration: InputDecoration(
-                hintText: '${livros[Random().nextInt(49)]}...',
+                hintText: '${_optionlivros[Random().nextInt(49)]}...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -125,10 +125,49 @@ class AutoCompleteInput extends StatelessWidget {
         if (textEditingValue.text == '') {
           return const Iterable<String>.empty();
         }
-        return livros.where((String option) {
+        return _optionlivros.where((String option) {
           return option.contains(textEditingValue.text);
         });
       },
+    );
+  }
+}
+
+class InputSearch extends StatelessWidget {
+  final searchInput;
+  final Function() onSubmitted;
+
+  const InputSearch({
+    super.key,
+    required this.searchInput,
+    required this.onSubmitted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 275,
+      height: 50,
+      child: TextField(
+        onSubmitted: (value) {
+          onSubmitted();
+        },
+        textInputAction: TextInputAction.search,
+        controller: searchInput,
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+          hintText: '${_optionlivros[Random().nextInt(49)]}...',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          suffixIcon: GestureDetector(
+            onTap: () {
+              searchInput.clear();
+            },
+            child: const Icon(Icons.clear),
+          ),
+        ),
+      ),
     );
   }
 }

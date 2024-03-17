@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 //import 'package:http/http.dart' as http;
 
 class Menu extends StatefulWidget {
-  final String name;
-
-  const Menu({super.key, required this.name});
+  const Menu({super.key});
 
   @override
   State<StatefulWidget> createState() {
