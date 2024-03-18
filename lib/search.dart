@@ -28,7 +28,7 @@ class _ListaResultados extends State<Search> {
     textController = widget.textController;
   }
 
-  Future<List<Livro>> fetchObjetos() async {
+  Future<List<Livro>> getBooks() async {
     final response = await http
         .get(Uri.parse('http://10.0.2.2:5000/search/${textController.text}'));
     if (response.statusCode == 200) {
@@ -39,10 +39,21 @@ class _ListaResultados extends State<Search> {
     }
   }
 
+  Future<List<Biblioteca>> getLib() async {
+    final response = await http.get(Uri.parse(
+        'http://10.0.2.2:5000/search/bibliotecas/${textController.text}'));
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((obj) => Biblioteca.fromJson(obj)).toList();
+    } else {
+      throw Exception('Falha ao carregar objetos');
+    }
+  }
+
   void novaPesquisa() async {
     resultados.clear();
     try {
-      resultados = await fetchObjetos();
+      resultados = await getBooks();
     } catch (e) {
       resultados = [];
     }

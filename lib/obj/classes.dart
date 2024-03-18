@@ -33,8 +33,13 @@ class Livro {
 class Biblioteca {
   String nome;
   String endereco;
-  List livros = [];
 
-  Biblioteca(
-      {required this.nome, required this.endereco, required this.livros});
+  Biblioteca({required this.nome, required this.endereco});
+
+  factory Biblioteca.fromJson(Map<String, dynamic> json) {
+    return Biblioteca(
+      nome: json['nome'],
+      endereco: json['endereco'],
+    );
+  }
 }

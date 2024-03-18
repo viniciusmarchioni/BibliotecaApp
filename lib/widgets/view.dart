@@ -77,20 +77,26 @@ class ItemList extends StatelessWidget {
             const Image(
               image: AssetImage('assets/yuri.jpg'),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  titulo,
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                Text(
-                  autores,
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 196, 188, 188)),
-                ),
-              ],
-            )
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      titulo,
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    autores,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 196, 188, 188)),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
