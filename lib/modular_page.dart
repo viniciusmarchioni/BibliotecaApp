@@ -15,22 +15,24 @@ class ModularPage extends StatelessWidget {
       ),
       body: Container(
         margin: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Image(image: AssetImage('assets/yuri.jpg'))]),
-            Text(
-              livro.autores,
-              style: const TextStyle(
-                  fontSize: 20, color: Color.fromARGB(255, 173, 165, 165)),
-            ),
-            Text(
-              livro.sinopse,
-              style: const TextStyle(fontSize: 20),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.network(livro.imageUrl)]),
+              Text(
+                livro.autores,
+                style: const TextStyle(
+                    fontSize: 20, color: Color.fromARGB(255, 173, 165, 165)),
+              ),
+              Text(
+                livro.sinopse,
+                style: const TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
     );

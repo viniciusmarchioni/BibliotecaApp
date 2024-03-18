@@ -62,21 +62,43 @@ class AutoCompleteInput extends StatelessWidget {
   final searchInput = TextEditingController();
   AutoCompleteInput({super.key});
 
-  Future<List<Livro>> fetchObjetos() async {
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:5000/search/${searchInput.text}'));
+  Future<List<Livro>> getBooks() async {
+    List<Livro> list = [];
+    final baseUrl = Uri.parse('https://www.googleapis.com/books/v1/volumes');
+
+    final params = {'q': searchInput.text};
+
+    final response = await http.get(baseUrl.replace(queryParameters: params));
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((obj) => Livro.fromJson(obj)).toList();
+      final data = json.decode(response.body);
+      for (var item in data['items']) {
+        var volumeInfo = item['volumeInfo'] ?? {};
+        var coverUrl = volumeInfo.containsKey('imageLinks')
+            ? volumeInfo['imageLinks']['thumbnail']
+            : 'N/A';
+        var title = volumeInfo['title'] ?? 'N/A';
+        var authors =
+            volumeInfo.containsKey('authors') ? volumeInfo['authors'] : ['N/A'];
+        var sinopse = volumeInfo['description'] ?? 'N/A';
+        list.add(Livro(
+            titulo: title,
+            autores: authors.toString(),
+            sinopse: sinopse,
+            tema: 'N/A',
+            imageUrl: coverUrl));
+      }
+      return list;
     } else {
-      throw Exception('Falha ao carregar objetos');
+      print('Erro ao fazer a solicitação: ${response.statusCode}');
+      list = [];
+      return list;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Future<void> changePage(String value) async {
-      var livros = await fetchObjetos();
+      var livros = await getBooks();
       if (searchInput.text == '') {
         return;
       } else {

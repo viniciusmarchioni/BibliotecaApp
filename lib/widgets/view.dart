@@ -35,16 +35,11 @@ class Grid extends StatelessWidget {
 }
 
 class ItemList extends StatelessWidget {
-  final bool isLivro;
-  final String titulo;
-  final String autores;
   final Livro book;
-  const ItemList(
-      {super.key,
-      required this.isLivro,
-      required this.titulo,
-      required this.autores,
-      required this.book});
+  const ItemList({
+    super.key,
+    required this.book,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +48,13 @@ class ItemList extends StatelessWidget {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) {
-              /*return const Menu(
-              name: 'Vini',
-            );*/
               return ModularPage(
                 livro: Livro(
                     titulo: book.titulo,
                     autores: book.autores,
                     sinopse: book.sinopse,
-                    tema: book.tema),
+                    tema: book.tema,
+                    imageUrl: book.imageUrl),
               );
             },
           ),
@@ -70,13 +63,11 @@ class ItemList extends StatelessWidget {
       child: Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
-        color: isLivro ? Colors.blue : Colors.green,
+        color: Colors.blue,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Image(
-              image: AssetImage('assets/yuri.jpg'),
-            ),
+            Image.network(book.imageUrl),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,13 +75,13 @@ class ItemList extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(right: 15),
                     child: Text(
-                      titulo,
+                      book.titulo,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    autores,
+                    book.autores,
                     style: const TextStyle(
                         color: Color.fromARGB(255, 196, 188, 188)),
                   ),

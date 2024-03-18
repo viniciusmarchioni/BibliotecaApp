@@ -9,13 +9,15 @@ class Sujestoes {
 }
 
 class Livro {
+  String imageUrl = '';
   String titulo;
   String autores;
   String sinopse;
   String tema;
 
   Livro(
-      {required this.titulo,
+      {required this.imageUrl,
+      required this.titulo,
       required this.autores,
       required this.sinopse,
       required this.tema});
@@ -26,6 +28,7 @@ class Livro {
       autores: json['autores'],
       sinopse: json['sinopse'],
       tema: json['tema'],
+      imageUrl: '',
     );
   }
 }
