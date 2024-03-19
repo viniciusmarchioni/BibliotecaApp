@@ -15,12 +15,13 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   late final TextEditingController textController;
-  List<dynamic> resultados = [];
+  late List<dynamic> resultados;
 
   @override
   void initState() {
     super.initState();
     textController = TextEditingController();
+    resultados = [];
   }
 
   Future<List<dynamic>> getBooks() async {
@@ -46,6 +47,7 @@ class _MenuState extends State<Menu> {
   }
 
   Future<void> novaPesquisa() async {
+    resultados = [];
     try {
       List<dynamic> bibliotecas = await getLibrary();
       List<dynamic> books = await getBooks();
