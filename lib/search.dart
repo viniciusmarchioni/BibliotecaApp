@@ -27,7 +27,7 @@ class _ListaResultados extends State<Search> {
     resultados = widget.resultados;
     textController = widget.textController;
   }
-  /*
+
   Future<List<Livro>> getBooks() async {
     final response = await http
         .get(Uri.parse('http://10.0.2.2:5000/search/${textController.text}'));
@@ -37,9 +37,9 @@ class _ListaResultados extends State<Search> {
     } else {
       throw Exception('Falha ao carregar objetos');
     }
-  }*/
+  }
 
-  Future<List<Livro>> getBooks() async {
+  /*Future<List<Livro>> getBooks() async {
     List<Livro> list = [];
     final baseUrl = Uri.parse('https://www.googleapis.com/books/v1/volumes');
 
@@ -70,7 +70,7 @@ class _ListaResultados extends State<Search> {
       list = [];
       return list;
     }
-  }
+  }*/
 
   void novaPesquisa() async {
     resultados.clear();

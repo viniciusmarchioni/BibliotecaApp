@@ -67,7 +67,13 @@ class ItemList extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(book.imageUrl),
+            SizedBox(
+              height: 100,
+              width: 80,
+              child: book.imageUrl == ''
+                  ? Image.asset('assets/yuri.jpg')
+                  : Image.network(book.imageUrl),
+            ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

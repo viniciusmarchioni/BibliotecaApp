@@ -28,7 +28,7 @@ class Livro {
       autores: json['autores'],
       sinopse: json['sinopse'],
       tema: json['tema'],
-      imageUrl: '',
+      imageUrl: json['image'],
     );
   }
 }
