@@ -10,7 +10,7 @@ class Sujestoes {
 
 class Livro {
   bool isLivro = true;
-  String imageUrl = '';
+  String imageUrl;
   String titulo;
   String autores;
   String sinopse;
