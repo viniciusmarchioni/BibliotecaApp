@@ -1,9 +1,5 @@
 import 'dart:math';
-import 'package:biblioteca_app/search.dart';
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:biblioteca_app/obj/classes.dart';
-import 'package:http/http.dart' as http;
 
 const List<String> _optionlivros = [
   "Dom Quixote",
@@ -58,96 +54,18 @@ const List<String> _optionlivros = [
   "O Coração das Trevas",
 ];
 
-class AutoCompleteInput extends StatelessWidget {
-  final searchInput = TextEditingController();
-  AutoCompleteInput({super.key});
-
-  Future<List<Livro>> getBooks() async {
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:5000/search/${searchInput.text}'));
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((obj) => Livro.fromJson(obj)).toList();
-    } else {
-      throw Exception('Falha ao carregar objetos');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Future<void> changePage(String value) async {
-      var livros = await getBooks();
-      if (searchInput.text == '') {
-        return;
-      } else {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) {
-              return Search(
-                resultados: livros,
-                textController: searchInput,
-              );
-            },
-          ),
-        );
-      }
-    }
-
-    return Autocomplete<String>(
-      fieldViewBuilder:
-          (context, textEditingController, focusNode, onFieldSubmitted) {
-        return Center(
-          child: SizedBox(
-            width: 275,
-            height: 50,
-            child: TextField(
-              onSubmitted: changePage,
-              textInputAction: TextInputAction.search,
-              controller: searchInput,
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                hintText: '${_optionlivros[Random().nextInt(49)]}...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    searchInput.clear();
-                  },
-                  child: const Icon(Icons.clear),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<String>.empty();
-        }
-        return _optionlivros.where((String option) {
-          return option.contains(textEditingValue.text);
-        });
-      },
-    );
-  }
-}
-
 class InputSearch extends StatelessWidget {
   final searchInput;
   final Function() onSubmitted;
 
-  const InputSearch({
-    super.key,
-    required this.searchInput,
-    required this.onSubmitted,
-  });
+  const InputSearch(
+      {super.key, required this.searchInput, required this.onSubmitted});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 275,
       height: 50,
+      width: 270,
       child: TextField(
         onSubmitted: (value) {
           onSubmitted();

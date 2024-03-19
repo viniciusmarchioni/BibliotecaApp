@@ -1,93 +1,90 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:biblioteca_app/widgets/input.dart';
 import 'package:biblioteca_app/widgets/view.dart';
-import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class Search extends StatefulWidget {
-  final List resultados;
-  final TextEditingController textController;
-  const Search(
-      {super.key, required this.resultados, required this.textController});
+  final List<dynamic> resultados;
+  final String pesquisa;
+
+  const Search({
+    Key? key,
+    required this.resultados,
+    required this.pesquisa,
+  }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _ListaResultados();
-  }
+  createState() => _ListaResultadosState();
 }
 
-class _ListaResultados extends State<Search> {
-  late List resultados;
+class _ListaResultadosState extends State<Search> {
+  late List<dynamic> resultados;
   late TextEditingController textController;
 
   @override
   void initState() {
     super.initState();
     resultados = widget.resultados;
-    textController = widget.textController;
+    textController = TextEditingController();
   }
 
-  Future<List<Livro>> getBooks() async {
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:5000/search/${textController.text}'));
+  Future<List<dynamic>> getBooks() async {
+    final response = await http.get(
+      Uri.parse('http://10.0.2.2:5000/search/${textController.text}'),
+    );
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
+      final jsonResponse = json.decode(response.body) as List<dynamic>;
       return jsonResponse.map((obj) => Livro.fromJson(obj)).toList();
     } else {
-      throw Exception('Falha ao carregar objetos');
+      throw Exception('Failed to load objects');
     }
   }
 
-  Future<List<Biblioteca>> getlibrary() async {
+  Future<List<dynamic>> getLibrary() async {
     final response = await http.get(
-        Uri.parse('http://10.0.2.2:5000/bibliotecas/${textController.text}'));
+      Uri.parse('http://10.0.2.2:5000/bibliotecas/${textController.text}'),
+    );
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
+      final jsonResponse = json.decode(response.body) as List<dynamic>;
       return jsonResponse.map((obj) => Biblioteca.fromJson(obj)).toList();
     } else {
-      throw Exception('Falha ao carregar objetos');
+      throw Exception('Failed to load objects');
     }
   }
 
-  void novaPesquisa() async {
-    resultados.clear();
-
+  Future<void> novaPesquisa() async {
     try {
-      List<Biblioteca> bibliotecas = await getlibrary();
-      resultados = await getBooks();
-      for (Biblioteca i in bibliotecas) {
-        resultados.add(i.cast());
-      }
+      final List<dynamic> bibliotecas = await getLibrary();
+      final List<dynamic> books = await getBooks();
+      resultados.clear();
+      resultados.addAll(bibliotecas);
+      resultados.addAll(books);
+      setState(() {});
     } catch (e) {
-      print(e);
-      resultados = [];
+      setState(() {
+        resultados.clear();
+      });
     }
-
-    setState(() {
-      resultados = resultados;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: InputSearch(
-        onSubmitted: novaPesquisa,
-        searchInput: textController,
-      )),
+        title: InputSearch(
+          searchInput: textController,
+          onSubmitted: novaPesquisa,
+        ),
+      ),
       body: ListView(
         children: [
-          for (Livro i in resultados)
-            if (i.isLivro)
-              ItemList(
-                book: i,
-              )
-            else
-              ItemList(
-                book: i,
-              )
+          for (var item in resultados)
+            if (item is Livro)
+              ItemList(book: item)
+            else if (item is Biblioteca)
+              ItemList(book: item.cast())
         ],
       ),
     );

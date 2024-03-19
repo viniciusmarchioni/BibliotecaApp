@@ -49,7 +49,7 @@ class Biblioteca {
         titulo: nome,
         autores: endereco,
         sinopse: 'Biblioteca',
-        tema: '',
+        tema: 'Biblioteca',
         isLivro: false);
   }
 

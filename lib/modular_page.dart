@@ -34,13 +34,9 @@ class _Estado extends State<ModularPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                if (livro.imageUrl == '')
-                  Image.network(livro.imageUrl)
-                else
-                  Image.network(
-                      'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small')
-              ]),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Image.network(livro.imageUrl)]),
               Text(
                 livro.autores,
                 style: const TextStyle(
