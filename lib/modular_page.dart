@@ -7,11 +7,11 @@ class ModularPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _estado();
+    return _Estado();
   }
 }
 
-class _estado extends State<ModularPage> {
+class _Estado extends State<ModularPage> {
   late Livro livro;
   bool isActived = false;
 
@@ -34,9 +34,13 @@ class _estado extends State<ModularPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Image.network(livro.imageUrl)]),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                if (livro.imageUrl == '')
+                  Image.network(livro.imageUrl)
+                else
+                  Image.network(
+                      'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small')
+              ]),
               Text(
                 livro.autores,
                 style: const TextStyle(

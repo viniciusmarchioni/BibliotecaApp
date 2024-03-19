@@ -9,6 +9,7 @@ class Sujestoes {
 }
 
 class Livro {
+  bool isLivro = true;
   String imageUrl = '';
   String titulo;
   String autores;
@@ -16,7 +17,8 @@ class Livro {
   String tema;
 
   Livro(
-      {required this.imageUrl,
+      {required this.isLivro,
+      required this.imageUrl,
       required this.titulo,
       required this.autores,
       required this.sinopse,
@@ -29,6 +31,7 @@ class Livro {
       sinopse: json['sinopse'],
       tema: json['tema'],
       imageUrl: json['image'],
+      isLivro: true,
     );
   }
 }
@@ -38,6 +41,17 @@ class Biblioteca {
   String endereco;
 
   Biblioteca({required this.nome, required this.endereco});
+
+  Livro cast() {
+    return Livro(
+        imageUrl:
+            'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small',
+        titulo: nome,
+        autores: endereco,
+        sinopse: 'Biblioteca',
+        tema: '',
+        isLivro: false);
+  }
 
   factory Biblioteca.fromJson(Map<String, dynamic> json) {
     return Biblioteca(

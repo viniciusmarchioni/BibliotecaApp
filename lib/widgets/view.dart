@@ -54,7 +54,8 @@ class ItemList extends StatelessWidget {
                     autores: book.autores,
                     sinopse: book.sinopse,
                     tema: book.tema,
-                    imageUrl: book.imageUrl),
+                    imageUrl: book.imageUrl,
+                    isLivro: book.isLivro),
               );
             },
           ),
@@ -63,7 +64,7 @@ class ItemList extends StatelessWidget {
       child: Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
-        color: Colors.blue,
+        color: book.isLivro ? Colors.blue : Colors.green,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -71,7 +72,8 @@ class ItemList extends StatelessWidget {
               height: 100,
               width: 80,
               child: book.imageUrl == ''
-                  ? Image.asset('assets/yuri.jpg')
+                  ? Image.network(
+                      'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small')
                   : Image.network(book.imageUrl),
             ),
             Expanded(
@@ -90,6 +92,7 @@ class ItemList extends StatelessWidget {
                     book.autores,
                     style: const TextStyle(
                         color: Color.fromARGB(255, 196, 188, 188)),
+                    maxLines: 1,
                   ),
                 ],
               ),

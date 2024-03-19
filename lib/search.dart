@@ -39,44 +39,28 @@ class _ListaResultados extends State<Search> {
     }
   }
 
-  /*Future<List<Livro>> getBooks() async {
-    List<Livro> list = [];
-    final baseUrl = Uri.parse('https://www.googleapis.com/books/v1/volumes');
-
-    final params = {'q': textController.text};
-
-    final response = await http.get(baseUrl.replace(queryParameters: params));
+  Future<List<Biblioteca>> getlibrary() async {
+    final response = await http.get(
+        Uri.parse('http://10.0.2.2:5000/bibliotecas/${textController.text}'));
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      for (var item in data['items']) {
-        var volumeInfo = item['volumeInfo'] ?? {};
-        var coverUrl = volumeInfo.containsKey('imageLinks')
-            ? volumeInfo['imageLinks']['thumbnail']
-            : null;
-        var title = volumeInfo['title'] ?? 'N/A';
-        var authors =
-            volumeInfo.containsKey('authors') ? volumeInfo['authors'] : ['N/A'];
-        var sinopse = volumeInfo['description'] ?? 'N/A';
-        list.add(Livro(
-            titulo: title,
-            autores: authors.toString(),
-            sinopse: sinopse,
-            tema: 'N/A',
-            imageUrl: coverUrl));
-      }
-      return list;
+      List<dynamic> jsonResponse = json.decode(response.body);
+      return jsonResponse.map((obj) => Biblioteca.fromJson(obj)).toList();
     } else {
-      print('Erro ao fazer a solicitação: ${response.statusCode}');
-      list = [];
-      return list;
+      throw Exception('Falha ao carregar objetos');
     }
-  }*/
+  }
 
   void novaPesquisa() async {
     resultados.clear();
+
     try {
+      List<Biblioteca> bibliotecas = await getlibrary();
       resultados = await getBooks();
+      for (Biblioteca i in bibliotecas) {
+        resultados.add(i.cast());
+      }
     } catch (e) {
+      print(e);
       resultados = [];
     }
 
@@ -96,9 +80,14 @@ class _ListaResultados extends State<Search> {
       body: ListView(
         children: [
           for (Livro i in resultados)
-            ItemList(
-              book: i,
-            )
+            if (i.isLivro)
+              ItemList(
+                book: i,
+              )
+            else
+              ItemList(
+                book: i,
+              )
         ],
       ),
     );
