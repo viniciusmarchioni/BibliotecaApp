@@ -22,7 +22,7 @@ class _Homepage extends State<MyApp> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) {
-            return const Menu();
+            return Menu();
           },
         ),
       );
