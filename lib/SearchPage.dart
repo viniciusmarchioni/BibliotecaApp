@@ -3,21 +3,21 @@ import 'package:biblioteca_app/obj/classes.dart';
 import 'package:biblioteca_app/widgets/input.dart';
 import 'package:biblioteca_app/widgets/view.dart';
 
-class Search extends StatefulWidget {
+class SearchPage extends StatefulWidget {
   final List<dynamic> resultados;
   final String pesquisa;
 
-  const Search({
+  const SearchPage({
     Key? key,
     required this.resultados,
     required this.pesquisa,
   }) : super(key: key);
 
   @override
-  createState() => _ListaResultadosState();
+  createState() => _SearchPageState();
 }
 
-class _ListaResultadosState extends State<Search> {
+class _SearchPageState extends State<SearchPage> {
   late List<dynamic> resultados;
   late TextEditingController textController = TextEditingController();
 
@@ -31,8 +31,8 @@ class _ListaResultadosState extends State<Search> {
     resultados.clear();
     try {
       final List<dynamic> bibliotecas =
-          await Pesquisa.getLibrary(textController.text);
-      final List<dynamic> books = await Pesquisa.getBooks(textController.text);
+          await Search.getLibraries(textController.text);
+      final List<dynamic> books = await Search.getBooks(textController.text);
 
       resultados.addAll(bibliotecas);
       resultados.addAll(books);
@@ -58,10 +58,10 @@ class _ListaResultadosState extends State<Search> {
       body: ListView(
         children: [
           for (var item in resultados)
-            if (item is Livro)
+            if (item is Book)
               ItemList(book: item)
-            else if (item is Biblioteca)
-              ItemList(book: item.cast())
+            else if (item is Library)
+              ItemList(book: item.asBook())
         ],
       ),
     );

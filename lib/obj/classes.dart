@@ -1,91 +1,128 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class Sujestoes {
-  String nome;
+class Suggestion {
+  final String name;
 
-  Sujestoes({required this.nome});
+  Suggestion({required this.name});
 
-  factory Sujestoes.fromJson(String json) {
-    return Sujestoes(nome: json);
+  factory Suggestion.fromJson(String json) {
+    return Suggestion(name: json);
   }
 }
 
-class Livro {
-  bool isLivro = true;
-  String imageUrl;
-  String titulo;
-  String autores;
-  String sinopse;
-  String tema;
+class Book {
+  final bool isBook;
+  final String imageUrl;
+  final String title;
+  final String authors;
+  final String synopsis;
+  final String theme;
 
-  Livro(
-      {required this.isLivro,
-      required this.imageUrl,
-      required this.titulo,
-      required this.autores,
-      required this.sinopse,
-      required this.tema});
+  Book({
+    required this.isBook,
+    required this.imageUrl,
+    required this.title,
+    required this.authors,
+    required this.synopsis,
+    required this.theme,
+  });
 
-  factory Livro.fromJson(Map<String, dynamic> json) {
-    return Livro(
-      titulo: json['titulo'],
-      autores: json['autores'],
-      sinopse: json['sinopse'],
-      tema: json['tema'],
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+      title: json['titulo'],
+      authors: json['autores'],
+      synopsis: json['sinopse'],
+      theme: json['tema'],
       imageUrl: json['image'],
-      isLivro: true,
+      isBook: true,
     );
   }
 }
 
-class Biblioteca {
-  String nome;
-  String endereco;
+class Library {
+  final String name;
+  final String address;
 
-  Biblioteca({required this.nome, required this.endereco});
+  Library({required this.name, required this.address});
 
-  Livro cast() {
-    return Livro(
-        imageUrl:
-            'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small',
-        titulo: nome,
-        autores: endereco,
-        sinopse: 'Biblioteca',
-        tema: 'Biblioteca',
-        isLivro: false);
+  Book asBook() {
+    return Book(
+      imageUrl:
+          'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small',
+      title: name,
+      authors: address,
+      synopsis: 'Library',
+      theme: 'Library',
+      isBook: false,
+    );
   }
 
-  factory Biblioteca.fromJson(Map<String, dynamic> json) {
-    return Biblioteca(
-      nome: json['nome'],
-      endereco: json['endereco'],
+  factory Library.fromJson(Map<String, dynamic> json) {
+    return Library(
+      name: json['nome'],
+      address: json['endereco'],
     );
   }
 }
 
-class Pesquisa {
+class Search {
   static Future<List<dynamic>> getBooks(String string) async {
     final response = await http.get(
       Uri.parse('http://10.0.2.2:5000/search/$string'),
     );
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body) as List<dynamic>;
-      return jsonResponse.map((obj) => Livro.fromJson(obj)).toList();
+      return jsonResponse.map((obj) => Book.fromJson(obj)).toList();
     } else {
       throw Exception('Failed to load objects');
     }
   }
 
-  static Future<List<dynamic>> getLibrary(String string) async {
-    final response = await http.get(
-      Uri.parse('http://10.0.2.2:5000/bibliotecas/$string'),
-    );
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body) as List<dynamic>;
-      return jsonResponse.map((obj) => Biblioteca.fromJson(obj)).toList();
-    } else {
-      throw Exception('Failed to load objects');
+  static Future<List<dynamic>> getLibraries(String string) async {
+    try {
+      final response = await http
+          .get(
+            Uri.parse('http://10.0.2.2:5000/bibliotecas/$string'),
+          )
+          .timeout(const Duration(seconds: 5));
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body) as List<dynamic>;
+        return jsonResponse.map((obj) => Library.fromJson(obj)).toList();
+      } else {
+        throw Exception('Failed to load objects');
+      }
+    } on TimeoutException {
+      debugPrint('----------------TIMEOUT------------');
+      return [];
+    } on HttpException {
+      debugPrint('----------------Erro ao conectar a api------------');
+      return [];
+    }
+  }
+
+  static Future<List<dynamic>> getLocations(String string) async {
+    try {
+      final response = await http
+          .get(
+            Uri.parse('http://10.0.2.2:5000/search/bibliotecas/$string'),
+          )
+          .timeout(const Duration(seconds: 5));
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body) as List<dynamic>;
+        return jsonResponse.map((obj) => Library.fromJson(obj)).toList();
+      } else {
+        throw Exception('Failed to load objects');
+      }
+    } on TimeoutException {
+      debugPrint('----------------TIMEOUT------------');
+      return [];
+    } on HttpException {
+      debugPrint('----------------Erro ao conectar a api------------');
+      return [];
     }
   }
 }

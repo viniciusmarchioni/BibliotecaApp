@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:biblioteca_app/obj/classes.dart';
-import 'package:biblioteca_app/search.dart';
+import 'package:biblioteca_app/SearchPage.dart';
 import 'package:biblioteca_app/widgets/input.dart';
 import 'package:biblioteca_app/widgets/view.dart';
 
@@ -14,14 +14,16 @@ class Menu extends StatelessWidget {
       List resultados = [];
       try {
         List<dynamic> bibliotecas =
-            await Pesquisa.getLibrary(textController.text);
-        List<dynamic> books = await Pesquisa.getBooks(textController.text);
+            await Search.getLibraries(textController.text);
+        List<dynamic> books = await Search.getBooks(textController.text);
         for (var biblioteca in bibliotecas) {
-          resultados.add(biblioteca.cast());
+          resultados.add(biblioteca.asBook());
         }
         resultados.addAll(books);
+        String valor = textController.text;
+        textController.text = '';
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return Search(resultados: resultados, pesquisa: textController.text);
+          return SearchPage(resultados: resultados, pesquisa: valor);
         }));
       } catch (e) {
         debugPrint(e.toString());

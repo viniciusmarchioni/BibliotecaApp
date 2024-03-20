@@ -1,3 +1,4 @@
+import 'package:biblioteca_app/SearchPage.dart';
 import 'package:biblioteca_app/modular_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,15 @@ class Grid extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             splashColor: Colors.black26,
-            onTap: () {},
+            onTap: () {
+              _onTapFunc(index, context);
+            },
             child: Ink.image(
-              image: const AssetImage('assets/yuri.jpg'),
-              child: const Center(
+              image: AssetImage(_getImage(index)),
+              child: Center(
                 child: Text(
-                  'Yuri Alberto',
-                  style: TextStyle(
+                  _getTitle(index),
+                  style: const TextStyle(
                       color: Colors.white, backgroundColor: Colors.black),
                 ),
               ),
@@ -35,7 +38,7 @@ class Grid extends StatelessWidget {
 }
 
 class ItemList extends StatelessWidget {
-  final Livro book;
+  final Book book;
   const ItemList({
     super.key,
     required this.book,
@@ -49,13 +52,13 @@ class ItemList extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) {
               return ModularPage(
-                livro: Livro(
-                    titulo: book.titulo,
-                    autores: book.autores,
-                    sinopse: book.sinopse,
-                    tema: book.tema,
+                livro: Book(
+                    title: book.title,
+                    authors: book.authors,
+                    synopsis: book.synopsis,
+                    theme: book.theme,
                     imageUrl: book.imageUrl,
-                    isLivro: book.isLivro),
+                    isBook: book.isBook),
               );
             },
           ),
@@ -64,7 +67,9 @@ class ItemList extends StatelessWidget {
       child: Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
-        color: book.isLivro ? Colors.blue : Colors.green,
+        color: book.isBook
+            ? const Color.fromARGB(255, 110, 160, 213)
+            : const Color.fromARGB(255, 46, 110, 58),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,13 +88,13 @@ class ItemList extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(right: 15),
                     child: Text(
-                      book.titulo,
+                      book.title,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Text(
-                    book.autores,
+                    book.authors,
                     style: const TextStyle(
                         color: Color.fromARGB(255, 196, 188, 188)),
                     maxLines: 1,
@@ -101,5 +106,42 @@ class ItemList extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<List> _onTapFunc(int index, context) async {
+  if (index == 0) {
+    List<dynamic> resultados = await Search.getLibraries('e');
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return SearchPage(resultados: resultados, pesquisa: 'e');
+    }));
+  } else if (index == 1) {
+    List<dynamic> resultados = await Search.getBooks('Harry');
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return SearchPage(resultados: resultados, pesquisa: 'Harry');
+    }));
+  }
+  return [];
+}
+
+String _getTitle(index) {
+  switch (index) {
+    case 0:
+      return 'Bibliotecas';
+    case 1:
+      return 'Livros';
+    default:
+      return 'Yuri Alberto';
+  }
+}
+
+String _getImage(index) {
+  switch (index) {
+    case 0:
+      return 'assets/library.jpg';
+    case 1:
+      return 'assets/book.jpg';
+    default:
+      return 'assets/yuri.jpg';
   }
 }
