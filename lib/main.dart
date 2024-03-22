@@ -1,4 +1,5 @@
 import 'package:biblioteca_app/menu.dart';
+import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -40,7 +41,19 @@ class _Homepage extends State<MyApp> {
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-          child: Column(
+            child: ElevatedButton(
+                onPressed: () async {
+                  try {
+                    var user = await GoogleSignInApi.login();
+
+                    print(user?.email);
+                    changeStr();
+                  } catch (e) {
+                    print("ERRO AQUI Ó: $e --------------------------");
+                  }
+                },
+                child: Text("Entre com Google"))
+            /*Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
@@ -72,8 +85,8 @@ class _Homepage extends State<MyApp> {
                 ),
               ),
             ],
-          ),
-        ),
+          ),*/
+            ),
       ),
     );
   }
