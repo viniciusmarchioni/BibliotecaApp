@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Suggestion {
   final String name;
@@ -132,4 +133,46 @@ class GoogleSignInApi {
   static final _googleSignIn = GoogleSignIn();
 
   static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
+}
+
+class Account {
+  String? nome;
+  String? email;
+
+  Account(this.nome, this.email);
+
+  static void saveAccount(Account conta) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    conta.nome == null
+        ? throw ('Nome invalido')
+        : await prefs.setString('name', conta.nome!);
+    conta.email == null
+        ? throw ('Email invalido')
+        : await prefs.setString('email', conta.email!);
+  }
+
+  static Future<bool> isLogged() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      final String? name = prefs.getString('name');
+      final String? email = prefs.getString('email');
+      if (name!.length > 1 && email!.length > 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<Account> getAccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final String? name = prefs.getString('name');
+    final String? email = prefs.getString('email');
+
+    return Account(name, email);
+  }
 }

@@ -1,4 +1,4 @@
-import 'package:biblioteca_app/SearchPage.dart';
+import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +79,7 @@ Widget botao(String bookName, context) {
     builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         // Retorna um widget de carregamento enquanto o futuro está sendo resolvido
-        return CircularProgressIndicator();
+        return const CircularProgressIndicator();
       } else {
         // Retorna o widget resolvido do futuro
         return snapshot.data ??

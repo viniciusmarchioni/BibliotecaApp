@@ -1,11 +1,17 @@
 import 'package:biblioteca_app/menu.dart';
 import 'package:biblioteca_app/obj/classes.dart';
+import 'package:custom_signin_buttons/button_data.dart';
+import 'package:custom_signin_buttons/button_list.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MaterialApp(home: MyApp()));
+  if (await Account.isLogged()) {
+    runApp(MaterialApp(home: Menu()));
+  } else {
+    runApp(const MaterialApp(home: MyApp()));
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -16,8 +22,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _Homepage extends State<MyApp> {
-  final TextEditingController _textController = TextEditingController();
-
   void changeStr() {
     setState(() {
       Navigator.of(context).pushReplacement(
@@ -41,52 +45,21 @@ class _Homepage extends State<MyApp> {
       home: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
-            child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    var user = await GoogleSignInApi.login();
-
-                    print(user?.email);
-                    changeStr();
-                  } catch (e) {
-                    print("ERRO AQUI Ó: $e --------------------------");
-                  }
-                },
-                child: Text("Entre com Google"))
-            /*Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 250,
-                child: TextField(
-                  controller: _textController,
-                  cursorColor: Colors.black,
-                  decoration: InputDecoration(
-                      hintText: 'Entrar como',
-                      border: const OutlineInputBorder(),
-                      fillColor: Colors.black,
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            _textController.clear();
-                          },
-                          icon: const Icon(Icons.clear))),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 20),
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: changeStr,
-                  style: const ButtonStyle(),
-                  child: const Text('Entrar'),
-                ),
-              ),
-            ],
-          ),*/
-            ),
+          child: SignInButton(
+            button: Button.Google,
+            text: 'Entrar com Google',
+            width: 250,
+            onPressed: () async {
+              try {
+                var user = await GoogleSignInApi.login();
+                Account.saveAccount(Account(user?.displayName, user?.email));
+                changeStr();
+              } catch (e) {
+                debugPrint("ERRO AQUI Ó: $e --------------------------");
+              }
+            },
+          ),
+        ),
       ),
     );
   }
