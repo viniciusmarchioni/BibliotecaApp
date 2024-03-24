@@ -49,21 +49,30 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: InputSearch(
-          searchInput: textController,
-          onSubmitted: novaPesquisa,
+        appBar: AppBar(
+          title: InputSearch(
+            searchInput: textController,
+            onSubmitted: novaPesquisa,
+          ),
         ),
-      ),
-      body: ListView(
-        children: [
-          for (var item in resultados)
-            if (item is Book)
-              ItemList(book: item)
-            else if (item is Library)
-              ItemList(book: item.asBook())
-        ],
-      ),
+        body: _buildResultsWidget(resultados));
+  }
+}
+
+Widget _buildResultsWidget(List<dynamic> resultados) {
+  if (resultados.isEmpty) {
+    return const Center(
+      child: Text('Sua pesquisa não retornou resultados :('),
+    );
+  } else {
+    return ListView(
+      children: [
+        for (var item in resultados)
+          if (item is Book)
+            ItemList(book: item)
+          else if (item is Library)
+            ItemList(book: item.asBook())
+      ],
     );
   }
 }

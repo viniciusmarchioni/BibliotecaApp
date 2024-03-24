@@ -1,3 +1,4 @@
+import 'package:biblioteca_app/main.dart';
 import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/modular_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
@@ -93,12 +94,21 @@ class ItemList extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    book.authors,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 196, 188, 188)),
-                    maxLines: 1,
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _getLimitedAuthors(book.authors),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 196, 188, 188)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.star_border_rounded))
+                    ],
+                  )
                 ],
               ),
             ),
@@ -120,6 +130,13 @@ Future<List> _onTapFunc(int index, context) async {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return SearchPage(resultados: resultados, pesquisa: 'Harry');
     }));
+  } else if (index == 4) {
+    Account.deleteAccount();
+    if (context.mounted) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return const MyApp();
+      }));
+    }
   }
   return [];
 }
@@ -130,8 +147,14 @@ String _getTitle(index) {
       return 'Bibliotecas';
     case 1:
       return 'Livros';
+    case 2:
+      return 'Favoritos';
+    case 3:
+      return 'Configurações';
+    case 4:
+      return 'Sair';
     default:
-      return 'Yuri Alberto';
+      return 'Placeholder';
   }
 }
 
@@ -141,7 +164,21 @@ String _getImage(index) {
       return 'assets/library.jpg';
     case 1:
       return 'assets/book.jpg';
+    case 2:
+      return 'assets/fav.jpg';
+    case 3:
+      return 'assets/configuracoes.jpg';
+    case 4:
+      return 'assets/sair.png';
     default:
       return 'assets/yuri.jpg';
   }
+}
+
+String _getLimitedAuthors(String authors) {
+  // Limitar o autor a 20 caracteres
+  if (authors.length > 20) {
+    return '${authors.substring(0, 20)}...';
+  }
+  return authors;
 }

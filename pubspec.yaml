@@ -66,6 +66,9 @@ flutter:
     - assets/yuri.jpg
     - assets/book.jpg
     - assets/library.jpg
+    - assets/fav.jpg
+    - assets/sair.png
+    - assets/configuracoes.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -175,4 +175,17 @@ class Account {
 
     return Account(name, email);
   }
+
+  static void deleteAccount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove('name');
+    await prefs.remove('email');
+  }
+}
+
+class FailedToLoadException implements Exception {
+  final String message;
+
+  FailedToLoadException(this.message);
 }

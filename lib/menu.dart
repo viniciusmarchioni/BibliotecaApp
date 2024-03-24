@@ -13,6 +13,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<void> novaPesquisa() async {
       List resultados = [];
+      String valor = textController.text;
       try {
         List<dynamic> bibliotecas =
             await Search.getLibraries(textController.text);
@@ -21,7 +22,6 @@ class Menu extends StatelessWidget {
           resultados.add(biblioteca.asBook());
         }
         resultados.addAll(books);
-        String valor = textController.text;
         textController.text = '';
 
         if (context.mounted) {
@@ -30,7 +30,12 @@ class Menu extends StatelessWidget {
           }));
         }
       } catch (e) {
-        debugPrint(e.toString());
+        textController.text = '';
+        if (context.mounted) {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return SearchPage(resultados: resultados, pesquisa: valor);
+          }));
+        }
       }
     }
 
