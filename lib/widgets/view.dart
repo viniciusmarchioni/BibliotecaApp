@@ -2,6 +2,7 @@ import 'package:biblioteca_app/main.dart';
 import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/modular_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
+import 'package:biblioteca_app/widgets/icon.dart';
 import 'package:flutter/material.dart';
 
 class Grid extends StatelessWidget {
@@ -59,7 +60,8 @@ class ItemList extends StatelessWidget {
                     synopsis: book.synopsis,
                     theme: book.theme,
                     imageUrl: book.imageUrl,
-                    isBook: book.isBook),
+                    isBook: book.isBook,
+                    id: book.id),
               );
             },
           ),
@@ -101,12 +103,8 @@ class ItemList extends StatelessWidget {
                         _getLimitedAuthors(book.authors),
                         style: const TextStyle(
                             color: Color.fromARGB(255, 196, 188, 188)),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.star_border_rounded))
+                      Favorite(bookId: book.id)
                     ],
                   )
                 ],
@@ -129,6 +127,11 @@ Future<List> _onTapFunc(int index, context) async {
     List<dynamic> resultados = await Search.getBooks('Harry');
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return SearchPage(resultados: resultados, pesquisa: 'Harry');
+    }));
+  } else if (index == 2) {
+    List<dynamic> resultados = await Search.postAndGetFavorites();
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return SearchPage(resultados: resultados, pesquisa: 'Favoritos');
     }));
   } else if (index == 4) {
     Account.deleteAccount();
