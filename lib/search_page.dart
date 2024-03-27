@@ -1,3 +1,4 @@
+import 'package:biblioteca_app/obj/search.dart';
 import 'package:flutter/material.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:biblioteca_app/widgets/input.dart';
@@ -31,13 +32,15 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> novaPesquisa() async {
-    resultados.clear();
+    resultados = [];
     try {
       final List<dynamic> bibliotecas =
           await Search.getLibraries(textController.text);
       final List<dynamic> books = await Search.getBooks(textController.text);
 
-      resultados.addAll(bibliotecas);
+      for (Library i in bibliotecas) {
+        resultados.add(i.asBook());
+      }
       resultados.addAll(books);
     } catch (e) {
       resultados.clear();
@@ -50,7 +53,9 @@ class _SearchPageState extends State<SearchPage> {
       final List<dynamic> bibliotecas = await Search.getLibraries(pesquisa);
       final List<dynamic> books = await Search.getBooks(pesquisa);
 
-      resultados.addAll(bibliotecas);
+      for (Library i in bibliotecas) {
+        resultados.add(i.asBook());
+      }
       resultados.addAll(books);
     } catch (e) {
       resultados.clear();

@@ -1,3 +1,4 @@
+import 'package:biblioteca_app/obj/search.dart';
 import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:biblioteca_app/obj/classes.dart';
+import 'package:biblioteca_app/obj/account.dart';
 import 'package:flutter/material.dart';
 
 class Favorite extends StatefulWidget {

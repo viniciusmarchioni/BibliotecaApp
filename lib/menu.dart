@@ -12,7 +12,6 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<void> novaPesquisa() async {
       String valor = textController.text;
-      print('Valor: $valor');
       if (context.mounted) {
         Navigator.of(context).push(MaterialPageRoute(builder: (_) {
           return SearchPage(
