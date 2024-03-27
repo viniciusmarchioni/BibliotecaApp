@@ -83,7 +83,7 @@ class Search {
     try {
       final response = await http
           .get(Uri.parse('$_baseUrl/$endpoint'))
-          .timeout(const Duration(seconds: 5));
+          .timeout(const Duration(seconds: 3));
       if (response.statusCode == 200) {
         return json.decode(response.body) as List<dynamic>;
       } else {
@@ -249,3 +249,5 @@ class FailedToLoadException implements Exception {
 
   FailedToLoadException(this.message);
 }
+
+enum Types { biblioteca, livros, favoritos, pesquisa, pesquisaMenu }

@@ -103,7 +103,10 @@ Future<Widget> createBotao(String bookName, context) async {
         resultados.add(i.asBook());
       }
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return SearchPage(resultados: resultados, pesquisa: bookName);
+        return SearchPage(
+          pesquisa: bookName,
+          tipo: Types.biblioteca,
+        );
       }));
     },
     child: const Text('Onde encontrar'),

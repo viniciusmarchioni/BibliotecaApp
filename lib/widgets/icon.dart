@@ -41,7 +41,6 @@ class _FavoriteState extends State<Favorite> {
                         Account.setFavorite(bookId.toString());
                       } else {
                         Account.deleteFavorite(bookId.toString());
-                        print(await Account.getFavorite());
                       }
                       setState(() {
                         isFavorite = Future<bool>.value(!favorite);

@@ -119,19 +119,25 @@ class ItemList extends StatelessWidget {
 
 Future<List> _onTapFunc(int index, context) async {
   if (index == 0) {
-    List<dynamic> resultados = await Search.getLibraries('e');
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return SearchPage(resultados: resultados, pesquisa: 'e');
+      return const SearchPage(
+        pesquisa: 'e',
+        tipo: Types.biblioteca,
+      );
     }));
   } else if (index == 1) {
-    List<dynamic> resultados = await Search.getBooks('Harry');
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return SearchPage(resultados: resultados, pesquisa: 'Harry');
+      return const SearchPage(
+        pesquisa: 'Harry',
+        tipo: Types.livros,
+      );
     }));
   } else if (index == 2) {
-    List<dynamic> resultados = await Search.postAndGetFavorites();
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return SearchPage(resultados: resultados, pesquisa: 'Favoritos');
+      return const SearchPage(
+        pesquisa: '',
+        tipo: Types.favoritos,
+      );
     }));
   } else if (index == 4) {
     Account.deleteAccount();
