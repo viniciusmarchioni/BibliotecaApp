@@ -29,13 +29,13 @@ class Search {
   }
 
   static Future<List<dynamic>> getBooks(String string) async {
-    final jsonResponse = await _fetchData('search/$string');
+    final jsonResponse = await _fetchData('search/${_correcao(string)}');
     return jsonResponse.map((obj) => Book.fromJson(obj)).toList();
   }
 
   static Future<List<dynamic>> getLibraries(String string) async {
     try {
-      final jsonResponse = await _fetchData('bibliotecas/$string');
+      final jsonResponse = await _fetchData('bibliotecas/${_correcao(string)}');
       return jsonResponse.map((obj) => Library.fromJson(obj)).toList();
     } on TimeoutException {
       debugPrint('----------------TIMEOUT------------');
@@ -74,7 +74,8 @@ class Search {
 
   static Future<List<dynamic>> getLocations(String string) async {
     try {
-      final jsonResponse = await _fetchData('search/bibliotecas/$string');
+      final jsonResponse =
+          await _fetchData('search/bibliotecas/${_correcao(string)}');
       return jsonResponse.map((obj) => Library.fromJson(obj)).toList();
     } on TimeoutException {
       debugPrint('----------------TIMEOUT------------');
@@ -84,4 +85,9 @@ class Search {
       return [];
     }
   }
+}
+
+String _correcao(String string) {
+  string = string.replaceAll('-', '');
+  return string.replaceAll('/', '');
 }

@@ -63,7 +63,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> pesquisaFav() async {
-    resultados.clear();
     try {
       resultados = await Search.postAndGetFavorites();
     } catch (e) {
@@ -72,7 +71,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> pesquisaLivro() async {
-    resultados.clear();
     try {
       resultados = await Search.getBooks('Harry');
     } catch (e) {
@@ -81,9 +79,16 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> pesquisaBiblioteca() async {
-    resultados.clear();
     try {
       resultados = await Search.getLibraries('e');
+    } catch (e) {
+      resultados.clear();
+    }
+  }
+
+  Future<void> pesquisaLocais() async {
+    try {
+      resultados = await Search.getLocations(pesquisa);
     } catch (e) {
       resultados.clear();
     }
@@ -98,9 +103,10 @@ class _SearchPageState extends State<SearchPage> {
       return pesquisaFav();
     } else if (tipo == Types.pesquisaMenu) {
       return pesquisaMenu();
-    } else {
-      return novaPesquisa();
+    } else if (tipo == Types.ondeEncontrar) {
+      return pesquisaLocais();
     }
+    return novaPesquisa();
   }
 
   @override

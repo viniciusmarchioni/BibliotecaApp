@@ -106,7 +106,7 @@ Future<Widget> createBotao(String bookName, context) async {
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return SearchPage(
           pesquisa: bookName,
-          tipo: Types.biblioteca,
+          tipo: Types.ondeEncontrar,
         );
       }));
     },

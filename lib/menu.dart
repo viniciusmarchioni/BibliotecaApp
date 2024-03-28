@@ -10,23 +10,22 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> novaPesquisa() async {
-      String valor = textController.text;
-      if (context.mounted) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return SearchPage(
-            pesquisa: valor,
-            tipo: Types.pesquisaMenu,
-          );
-        }));
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: InputSearch(
-            onSubmitted: novaPesquisa,
+            onSubmitted: () {
+              String valor = textController.text;
+              textController.clear();
+              if (context.mounted) {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                  return SearchPage(
+                    pesquisa: valor,
+                    tipo: Types.pesquisaMenu,
+                  );
+                }));
+              }
+            },
             searchInput: textController,
           ),
         ),
