@@ -52,46 +52,27 @@ class ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        book.id != 0
-            ? Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) {
-                    return BookPage(
-                      livro: Book(
-                          title: book.title,
-                          authors: book.authors,
-                          synopsis: book.synopsis,
-                          theme: book.theme,
-                          imageUrl: book.imageUrl,
-                          isBook: book.isBook,
-                          id: book.id),
-                    );
-                  },
-                ),
-              )
-            : Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) {
-                    return LibraryPage(
-                      livro: Book(
-                          title: book.title,
-                          authors: book.authors,
-                          synopsis: book.synopsis,
-                          theme: book.theme,
-                          imageUrl: book.imageUrl,
-                          isBook: book.isBook,
-                          id: book.id),
-                    );
-                  },
-                ),
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              return BookPage(
+                livro: Book(
+                    title: book.title,
+                    authors: book.authors,
+                    synopsis: book.synopsis,
+                    theme: book.theme,
+                    imageUrl: book.imageUrl,
+                    isBook: book.isBook,
+                    id: book.id),
               );
+            },
+          ),
+        );
       },
       child: Container(
         height: 100,
         margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
-        color: book.isBook
-            ? const Color.fromARGB(255, 110, 160, 213)
-            : const Color.fromARGB(255, 46, 110, 58),
+        color: const Color.fromARGB(255, 110, 160, 213),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -124,6 +105,71 @@ class ItemList extends StatelessWidget {
                             color: Color.fromARGB(255, 196, 188, 188)),
                       ),
                       Favorite(bookId: book.id)
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LibraryList extends StatelessWidget {
+  final Library library;
+  const LibraryList({
+    super.key,
+    required this.library,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) {
+              return LibraryPage(
+                library: library,
+              );
+            },
+          ),
+        );
+      },
+      child: Container(
+        height: 100,
+        margin: const EdgeInsets.only(left: 10, right: 10, top: 5),
+        color: const Color.fromARGB(255, 46, 110, 58),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 100,
+              width: 80,
+              child: Image.network(library.image.toString()),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 15),
+                    child: Text(
+                      library.name,
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _getLimitedAuthors(library.address),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 196, 188, 188)),
+                      )
                     ],
                   )
                 ],

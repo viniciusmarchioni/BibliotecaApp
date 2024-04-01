@@ -46,21 +46,13 @@ class Book {
 class Library {
   final String name;
   final String address;
+  final String? image;
 
-  Library({required this.name, required this.address});
-
-  Book asBook() {
-    return Book(
-      imageUrl:
-          'https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small',
-      title: name,
-      authors: address,
-      synopsis: 'Library',
-      theme: 'Library',
-      isBook: false,
-      id: 0,
-    );
-  }
+  Library(
+      {this.image =
+          "https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small",
+      required this.name,
+      required this.address});
 
   factory Library.fromJson(Map<String, dynamic> json) {
     return Library(

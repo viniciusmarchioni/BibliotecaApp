@@ -39,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
       final List<dynamic> books = await Search.getBooks(textController.text);
 
       for (Library i in bibliotecas) {
-        resultados.add(i.asBook());
+        resultados.add(i);
       }
       resultados.addAll(books);
     } catch (e) {
@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
       final List<dynamic> books = await Search.getBooks(pesquisa);
 
       for (Library i in bibliotecas) {
-        resultados.add(i.asBook());
+        resultados.add(i);
       }
       resultados.addAll(books);
     } catch (e) {
@@ -148,7 +148,7 @@ Widget _buildResultsWidget(List<dynamic> resultados) {
           if (item is Book)
             ItemList(book: item)
           else if (item is Library)
-            ItemList(book: item.asBook())
+            LibraryList(library: item)
       ],
     );
   }
