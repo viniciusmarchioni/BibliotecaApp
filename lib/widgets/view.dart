@@ -1,7 +1,8 @@
+import 'package:biblioteca_app/library_page.dart';
 import 'package:biblioteca_app/main.dart';
 import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/search_page.dart';
-import 'package:biblioteca_app/modular_page.dart';
+import 'package:biblioteca_app/book_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:biblioteca_app/widgets/icon.dart';
 import 'package:flutter/material.dart';
@@ -51,22 +52,39 @@ class ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) {
-              return ModularPage(
-                livro: Book(
-                    title: book.title,
-                    authors: book.authors,
-                    synopsis: book.synopsis,
-                    theme: book.theme,
-                    imageUrl: book.imageUrl,
-                    isBook: book.isBook,
-                    id: book.id),
+        book.id != 0
+            ? Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) {
+                    return BookPage(
+                      livro: Book(
+                          title: book.title,
+                          authors: book.authors,
+                          synopsis: book.synopsis,
+                          theme: book.theme,
+                          imageUrl: book.imageUrl,
+                          isBook: book.isBook,
+                          id: book.id),
+                    );
+                  },
+                ),
+              )
+            : Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) {
+                    return LibraryPage(
+                      livro: Book(
+                          title: book.title,
+                          authors: book.authors,
+                          synopsis: book.synopsis,
+                          theme: book.theme,
+                          imageUrl: book.imageUrl,
+                          isBook: book.isBook,
+                          id: book.id),
+                    );
+                  },
+                ),
               );
-            },
-          ),
-        );
       },
       child: Container(
         height: 100,

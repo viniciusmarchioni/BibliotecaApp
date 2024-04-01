@@ -3,9 +3,9 @@ import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 
-class ModularPage extends StatefulWidget {
+class BookPage extends StatefulWidget {
   final Book livro;
-  const ModularPage({super.key, required this.livro});
+  const BookPage({super.key, required this.livro});
 
   @override
   State<StatefulWidget> createState() {
@@ -13,7 +13,7 @@ class ModularPage extends StatefulWidget {
   }
 }
 
-class _Estado extends State<ModularPage> {
+class _Estado extends State<BookPage> {
   late Book livro;
   bool isActived = false;
 
