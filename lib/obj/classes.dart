@@ -46,7 +46,7 @@ class Book {
 class Library {
   final String name;
   final String address;
-  final String? image;
+  final String image;
 
   Library(
       {this.image =
@@ -56,6 +56,7 @@ class Library {
 
   factory Library.fromJson(Map<String, dynamic> json) {
     return Library(
+      image: json['image'],
       name: json['nome'],
       address: json['endereco'],
     );

@@ -148,7 +148,7 @@ class LibraryList extends StatelessWidget {
             SizedBox(
               height: 100,
               width: 80,
-              child: Image.network(library.image.toString()),
+              child: Image.network(library.image.split(',')[0]),
             ),
             Expanded(
               child: Column(

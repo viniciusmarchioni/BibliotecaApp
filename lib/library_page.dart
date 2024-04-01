@@ -24,21 +24,12 @@ class LibraryPage extends StatelessWidget {
                 child: Scrollbar(
                     child:
                         ListView(scrollDirection: Axis.horizontal, children: [
-                  SizedBox(
-                    width: 170,
-                    height: 200,
-                    child: Image.network(library.image.toString()),
-                  ),
-                  SizedBox(
-                    width: 170,
-                    height: 200,
-                    child: Image.network(library.image.toString()),
-                  ),
-                  SizedBox(
-                    width: 170,
-                    height: 200,
-                    child: Image.network(library.image.toString()),
-                  ),
+                  for (String i in library.image.split(','))
+                    SizedBox(
+                      width: 170,
+                      height: 200,
+                      child: Image.network(i),
+                    ),
                 ])),
               ),
               Padding(
