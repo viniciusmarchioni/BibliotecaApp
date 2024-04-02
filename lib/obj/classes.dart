@@ -48,11 +48,7 @@ class Library {
   final String address;
   final String image;
 
-  Library(
-      {this.image =
-          "https://pbs.twimg.com/media/GGxpGBKXAAAkdwf?format=jpg&name=small",
-      required this.name,
-      required this.address});
+  Library({required this.image, required this.name, required this.address});
 
   factory Library.fromJson(Map<String, dynamic> json) {
     return Library(

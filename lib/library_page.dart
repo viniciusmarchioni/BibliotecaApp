@@ -28,7 +28,11 @@ class LibraryPage extends StatelessWidget {
                     SizedBox(
                       width: 170,
                       height: 200,
-                      child: Image.network(i),
+                      child: Image.network(
+                        i,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset('assets/yuri.jpg'),
+                      ),
                     ),
                 ])),
               ),

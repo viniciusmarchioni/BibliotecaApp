@@ -1,8 +1,8 @@
 import 'package:biblioteca_app/obj/search.dart';
+import 'package:biblioteca_app/widgets/list.dart';
 import 'package:flutter/material.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:biblioteca_app/widgets/input.dart';
-import 'package:biblioteca_app/widgets/view.dart';
 
 class SearchPage extends StatefulWidget {
   final Types tipo;
