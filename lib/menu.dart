@@ -1,3 +1,4 @@
+import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:biblioteca_app/search_page.dart';
@@ -10,6 +11,7 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Account.setPosition();
     return Scaffold(
       appBar: AppBar(
         title: Center(

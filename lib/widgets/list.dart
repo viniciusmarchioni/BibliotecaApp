@@ -1,11 +1,10 @@
-import 'dart:math';
 import 'package:biblioteca_app/book_page.dart';
 import 'package:biblioteca_app/library_page.dart';
-import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/obj/classes.dart';
-import 'package:biblioteca_app/widgets/distance.dart';
 import 'package:biblioteca_app/widgets/icon.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
+import '../obj/account.dart';
 
 class ItemList extends StatelessWidget {
   final Book book;
@@ -140,7 +139,7 @@ class LibraryList extends StatelessWidget {
                         style: const TextStyle(
                             color: Color.fromARGB(255, 196, 188, 188)),
                       ),
-                      const Distance()
+                      distancia(context, library)
                     ],
                   )
                 ],
@@ -159,4 +158,55 @@ String _getLimitedAuthors(String authors) {
     return '${authors.substring(0, 20)}...';
   }
   return authors;
+}
+
+String _kmCalculator(double lat, double long, double lat2, double long2) {
+  var dlat = _toRadians(lat2 - lat);
+  var dlon = _toRadians(long2 - long);
+
+  var a = pow(sin(dlat / 2), 2) +
+      cos(_toRadians(lat)) * cos(_toRadians(lat2)) * pow(sin(dlon / 2), 2);
+  var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+  var distance = 6371.0 * c;
+  if (distance > 100) {
+    return '>100';
+  }
+  return distance.toStringAsFixed(1);
+}
+
+double _toRadians(double degree) {
+  return degree * pi / 180;
+}
+
+Widget distancia(context, Library biblioteca) {
+  return FutureBuilder<Widget>(
+    future: getLocations(context, biblioteca),
+    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // Retorna um widget de carregamento enquanto o futuro está sendo resolvido
+        return const CircularProgressIndicator();
+      } else {
+        // Retorna o widget resolvido do futuro
+        return snapshot.data ??
+            Container(); // Se snapshot.data for nulo, retorna um Container()
+      }
+    },
+  );
+}
+
+Future<Widget> getLocations(context, Library biblioteca) async {
+  double? lat = await Account.getLatitude();
+  double? long = await Account.getLongitude();
+
+  if (lat == null || long == null) {
+    return Container();
+  }
+
+  return Container(
+    margin: const EdgeInsets.only(right: 15),
+    child: Text(
+      '${_kmCalculator(lat, long, biblioteca.lat, biblioteca.long)} km',
+      style: const TextStyle(color: Color.fromARGB(255, 196, 188, 188)),
+    ),
+  );
 }

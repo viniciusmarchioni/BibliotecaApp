@@ -47,18 +47,12 @@ Future<List> _onTapFunc(int index, context) async {
       );
     }));
   } else if (index == 1) {
-    try {
-      var x = await Account.getLatitude();
-      debugPrint(x.toString());
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    /*Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return const SearchPage(
         pesquisa: 'Harry',
         tipo: Types.livros,
       );
-    }));*/
+    }));
   } else if (index == 2) {
     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return const SearchPage(

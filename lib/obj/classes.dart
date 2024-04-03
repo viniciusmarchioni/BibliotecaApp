@@ -47,11 +47,20 @@ class Library {
   final String name;
   final String address;
   final String image;
+  final double lat;
+  final double long;
 
-  Library({required this.image, required this.name, required this.address});
+  Library(
+      {required this.lat,
+      required this.long,
+      required this.image,
+      required this.name,
+      required this.address});
 
   factory Library.fromJson(Map<String, dynamic> json) {
     return Library(
+      long: json['longitude'],
+      lat: json['latitude'],
       image: json['image'],
       name: json['nome'],
       address: json['endereco'],
