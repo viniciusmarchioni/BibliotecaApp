@@ -1,6 +1,9 @@
+import 'dart:math';
 import 'package:biblioteca_app/book_page.dart';
 import 'package:biblioteca_app/library_page.dart';
+import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/obj/classes.dart';
+import 'package:biblioteca_app/widgets/distance.dart';
 import 'package:biblioteca_app/widgets/icon.dart';
 import 'package:flutter/material.dart';
 
@@ -136,7 +139,8 @@ class LibraryList extends StatelessWidget {
                         _getLimitedAuthors(library.address),
                         style: const TextStyle(
                             color: Color.fromARGB(255, 196, 188, 188)),
-                      )
+                      ),
+                      const Distance()
                     ],
                   )
                 ],

@@ -3,7 +3,6 @@ import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class Grid extends StatelessWidget {
   const Grid({super.key});
@@ -48,8 +47,12 @@ Future<List> _onTapFunc(int index, context) async {
       );
     }));
   } else if (index == 1) {
-    var x = await getPosicao();
-    print(x);
+    try {
+      var x = await Account.getLatitude();
+      debugPrint(x.toString());
+    } catch (e) {
+      debugPrint(e.toString());
+    }
     /*Navigator.of(context).push(MaterialPageRoute(builder: (_) {
       return const SearchPage(
         pesquisa: 'Harry',
@@ -106,38 +109,4 @@ String _getImage(index) {
     default:
       return 'assets/yuri.jpg';
   }
-}
-
-getPosicao() async {
-  var lat;
-  var lon;
-  try {
-    Position posicao = await _posicaoAtual();
-    lat = posicao.latitude;
-    lon = posicao.longitude;
-    return '$lat, $lon';
-  } catch (e) {}
-}
-
-Future<Position> _posicaoAtual() async {
-  LocationPermission permissao;
-
-  bool ativado = await Geolocator.isLocationServiceEnabled();
-  if (!ativado) {
-    return Future.error('Por favor, habilite a localização no smartphone');
-  }
-
-  permissao = await Geolocator.checkPermission();
-  if (permissao == LocationPermission.denied) {
-    permissao = await Geolocator.requestPermission();
-    if (permissao == LocationPermission.denied) {
-      return Future.error('Você precisa autorizar o acesso à localização');
-    }
-  }
-
-  if (permissao == LocationPermission.deniedForever) {
-    return Future.error('Você precisa autorizar o acesso à localização');
-  }
-
-  return await Geolocator.getCurrentPosition();
 }
