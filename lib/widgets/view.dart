@@ -2,6 +2,7 @@ import 'package:biblioteca_app/main.dart';
 import 'package:biblioteca_app/obj/account.dart';
 import 'package:biblioteca_app/search_page.dart';
 import 'package:biblioteca_app/obj/classes.dart';
+import 'package:biblioteca_app/settings.dart';
 import 'package:flutter/material.dart';
 
 class Grid extends StatelessWidget {
@@ -39,34 +40,42 @@ class Grid extends StatelessWidget {
 }
 
 Future<List> _onTapFunc(int index, context) async {
-  if (index == 0) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return const SearchPage(
-        pesquisa: 'e',
-        tipo: Types.biblioteca,
-      );
-    }));
-  } else if (index == 1) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return const SearchPage(
-        pesquisa: 'Harry',
-        tipo: Types.livros,
-      );
-    }));
-  } else if (index == 2) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-      return const SearchPage(
-        pesquisa: '',
-        tipo: Types.favoritos,
-      );
-    }));
-  } else if (index == 4) {
-    Account.deleteAccount();
-    if (context.mounted) {
+  switch (index) {
+    case (0):
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-        return const MyApp();
+        return const SearchPage(
+          pesquisa: 'e',
+          tipo: Types.biblioteca,
+        );
       }));
-    }
+    case (1):
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return const SearchPage(
+          pesquisa: 'Harry',
+          tipo: Types.livros,
+        );
+      }));
+    case (2):
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return const SearchPage(
+          pesquisa: '',
+          tipo: Types.favoritos,
+        );
+      }));
+    case (3):
+      Account.deleteAccount();
+      if (context.mounted) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return const Settings();
+        }));
+      }
+    case (4):
+      Account.deleteAccount();
+      if (context.mounted) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+          return const MyApp();
+        }));
+      }
   }
   return [];
 }

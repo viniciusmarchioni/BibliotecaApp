@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (await Account.isLogged()) {
     runApp(MaterialApp(home: Menu()));
   } else {
