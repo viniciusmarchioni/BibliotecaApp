@@ -49,9 +49,11 @@ class Library {
   final String image;
   final double lat;
   final double long;
+  final int? disp;
 
   Library(
-      {required this.lat,
+      {this.disp,
+      required this.lat,
       required this.long,
       required this.image,
       required this.name,
@@ -59,6 +61,7 @@ class Library {
 
   factory Library.fromJson(Map<String, dynamic> json) {
     return Library(
+      disp: json['disponibilidade'],
       long: json['longitude'],
       lat: json['latitude'],
       image: json['image'],

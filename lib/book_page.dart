@@ -100,8 +100,8 @@ Future<Widget> createBotao(String bookName, context) async {
   return ElevatedButton(
     onPressed: () {
       List resultados = [];
-      for (var i in resposta) {
-        resultados.add(i.asBook());
+      for (Library i in resposta) {
+        resultados.add(i);
       }
       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
         return SearchPage(

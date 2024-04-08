@@ -74,8 +74,7 @@ class Search {
 
   static Future<List<dynamic>> getLocations(String string) async {
     try {
-      final jsonResponse =
-          await _fetchData('search/bibliotecas/${_correcao(string)}');
+      final jsonResponse = await _fetchData('search/bibliotecas/$string');
       return jsonResponse.map((obj) => Library.fromJson(obj)).toList();
     } on TimeoutException {
       debugPrint('----------------TIMEOUT------------');

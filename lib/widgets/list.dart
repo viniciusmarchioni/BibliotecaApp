@@ -122,6 +122,7 @@ class LibraryList extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     margin: const EdgeInsets.only(right: 15),
@@ -141,7 +142,8 @@ class LibraryList extends StatelessWidget {
                       ),
                       distancia(context, library)
                     ],
-                  )
+                  ),
+                  _disp(library.disp)
                 ],
               ),
             ),
@@ -158,6 +160,21 @@ String _getLimitedAuthors(String authors) {
     return '${authors.substring(0, 20)}...';
   }
   return authors;
+}
+
+Widget _disp(int? value) {
+  if (value == 0) {
+    return const Icon(
+      Icons.block_rounded,
+      color: Colors.red,
+    );
+  } else if (value == 1) {
+    return const Icon(
+      Icons.check,
+      color: Colors.green,
+    );
+  }
+  return Container();
 }
 
 String _kmCalculator(double lat, double long, double lat2, double long2) {
