@@ -1,5 +1,6 @@
 import 'package:biblioteca_app/obj/classes.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LibraryPage extends StatelessWidget {
   final Library library;
@@ -46,6 +47,17 @@ class LibraryPage extends StatelessWidget {
                   ),
                 ),
               ),
+              Center(
+                child: ElevatedButton.icon(
+                    onPressed: () {
+                      String googleMapsUrl =
+                          'https://www.google.com/maps/search/?api=1&query=${library.lat},${library.long}';
+                      launchUrl(Uri.parse(googleMapsUrl),
+                          mode: LaunchMode.externalApplication);
+                    },
+                    icon: const Icon(Icons.location_on),
+                    label: const Text('Abrir no Maps')),
+              )
             ],
           ),
         ),

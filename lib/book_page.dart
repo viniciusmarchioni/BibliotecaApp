@@ -97,7 +97,7 @@ Future<Widget> createBotao(String bookName, context) async {
     return Container();
   }
 
-  return ElevatedButton(
+  return ElevatedButton.icon(
     onPressed: () {
       List resultados = [];
       for (Library i in resposta) {
@@ -110,6 +110,7 @@ Future<Widget> createBotao(String bookName, context) async {
         );
       }));
     },
-    child: const Text('Onde encontrar'),
+    icon: const Icon(Icons.search),
+    label: const Text('Onde encontrar'),
   );
 }

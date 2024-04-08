@@ -48,7 +48,7 @@ class _SettingsState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('Configurações'))),
+      appBar: AppBar(title: const Text('Configurações')),
       body:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Container(),
@@ -106,7 +106,9 @@ class _SettingsState extends State {
         ),
         Container(
             margin: const EdgeInsets.only(bottom: 15),
-            child: const Center(child: Text('---Sobre--')))
+            child: Center(
+                child: TextButton(
+                    onPressed: () {}, child: const Text('---Sobre---'))))
       ]),
     );
   }
